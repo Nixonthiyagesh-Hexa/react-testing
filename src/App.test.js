@@ -10,6 +10,10 @@ jest.mock("axios", () => ({
           id: 1,
           title: "post title",
         },
+        {
+          id: 2,
+          title: "post title2",
+        },
       ],
     }),
   },
@@ -21,12 +25,14 @@ test("name, age input and post titles should be render ", async () => {
   const ageInput = screen.getByTestId("age");
   const nameEl = screen.queryByTestId("entered-name");
   const ageEl = screen.queryByTestId("entered-age");
+  expect(screen.queryByText("post title")).not.toBeInTheDocument();
+
   expect(nameInput).toBeInTheDocument();
   expect(ageInput).toBeInTheDocument();
   expect(nameEl).not.toBeInTheDocument();
   expect(ageEl).not.toBeInTheDocument();
-  const titleList = await screen.findByText("post title");
-  expect(titleList).toBeInTheDocument();
+  const titleList = await screen.findAllByTestId("post-title");
+  expect(titleList).toHaveLength(2);
 });
 
 test("name and age inputs changes to be render ", () => {

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
-
+import renderer from "react-test-renderer";
 jest.mock("axios", () => ({
   __esModule: true,
   default: {
@@ -65,4 +65,16 @@ test("name and age elements render", async () => {
   await waitFor(() =>
     expect(screen.queryByTestId("entered-age")).toBeInTheDocument()
   );
+});
+
+// test("testing with the snapshot for match", () => {
+//   const tree = renderer.create(<App />).toJSON;
+//   expect(tree).toMatchSnapshot();
+// });
+
+describe("Jest Snapshot testing suite", () => {
+  it("Matches DOM Snapshot", () => {
+    const domTree = renderer.create(<App />).toJSON();
+    expect(domTree).toMatchSnapshot();
+  });
 });
